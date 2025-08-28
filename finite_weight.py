@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.axes as ax
-import math
 from finite_weight_parameters import *
 import scipy.linalg
 import scipy.sparse

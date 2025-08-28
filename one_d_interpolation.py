@@ -3,7 +3,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.axes as ax
-import math
 from one_d_parameters import *
 import scipy.linalg
 import time
@@ -213,7 +212,7 @@ poly_degree_9_vec = []
 
 xvals_graph = []
 
-for i in range(1,10): # Iterates over number of sample points
+for i in range(1,8): # Iterates over number of sample points
   u = 200*i
   step = (stop-start)/u
   num_pts = int((((stop-start)/step)+1))

@@ -2,7 +2,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.axes as ax
-import math
 from local_interpolation_parameters import *
 import scipy.linalg
 import time
