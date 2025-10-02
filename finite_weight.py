@@ -155,6 +155,17 @@ def local_differentiation(xvals, p_degree):
       poly_matrix_t = poly_matrix.getT() #getT gets the transpose of the matrix
       zeroes = np.matrix(np.array([0]*(p_degree+1)**2).reshape(p_degree+1,p_degree+1))
 
+      # Creation of A matrix dx
+
+      phs_matrix_dx = list_to_matrix(phs_matrix_dx)
+      poly_matrix_dx = list_to_matrix(poly_matrix_dx)
+      poly_matrix_dx_t = poly_matrix_dx.getT() #getT gets the transpose of the matrix
+      zeroes_dx = np.matrix(np.array([0]*(p_degree+1)**2).reshape(p_degree+1,p_degree+1))
+
+      top_half_A_dx = np.hstack((phs_matrix_dx.getA(),poly_matrix_dx.getA())) #getA makes the matrix an array which allows us to stack it
+      bottom_half_A_dx = np.hstack((poly_matrix_dx_t.getA(), zeroes_dx.getA()))
+      A_matrix_dx = np.matrix(np.vstack((top_half_A_dx,bottom_half_A_dx)))
+
 
       top_half_A = np.hstack((phs_matrix.getA(),poly_matrix.getA())) #getA makes the matrix an array which allows us to stack it
       bottom_half_A = np.hstack((poly_matrix_t.getA(), zeroes.getA()))
@@ -166,7 +177,7 @@ def local_differentiation(xvals, p_degree):
 
 
       # Attempt to use sparse solver for large matrices
-      A_sparse = scipy.sparse.csc_matrix(A_matrix)
+      A_sparse = scipy.sparse.csc_matrix(A_matrix_dx) 
       finite_weights = np.matrix(scipy.sparse.linalg.spsolve(A_sparse, deriv_phs_vector))
       #finite_weights = np.matmul(A_matrix_inv, deriv_phs_vector)
 
@@ -200,7 +211,7 @@ poly_degree_3_vec = []
 poly_degree_4_vec = []
 poly_degree_5_vec = []
 xvals_graph = []
-for i in range(1,16): # Iterates over number of sample points
+for i in range(1,11): # Iterates over number of sample points
   u = 50*i
   step = (stop-start)/u
   num_pts = int((((stop-start)/step)+1))
