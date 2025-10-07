@@ -3,13 +3,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.axes as ax
-from one_d_parameters import *
 import scipy.linalg
 import time
 
 start_time = time.time()
 #import sklearn.neighbors as nn
 
+degree = 3
+poly_degree = 4
+start = 0.001
+stop = 1
+u = 200
+num_interpolation_pts = 1500
 # Nearest Neighbors'
 
 
@@ -254,8 +259,9 @@ plt.xlabel('n')
 plt.ylabel('infinity norm')
 plt.title('Infinity norm vs. n')
 plt.grid(True)
-plt.legend()
-plt.show()
+plt.legend(title='Degree of Appended Polynomial', loc='upper left', bbox_to_anchor=(1, 1))
+plt.tight_layout()
+plt.savefig('one_d_interpolation_phs.png', dpi=600)
 ## Basic Plot
 #plt.plot(xvals, true_y, 'bo', label="Original Points")  # Blue dots for original points
 #plt.plot(extended_xvals, interpolation_pts, 'ro', label="Interpolation Curve")
