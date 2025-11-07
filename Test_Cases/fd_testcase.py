@@ -185,19 +185,22 @@ for k in range(1,5): # Iterates over polynomial degrees
       elif k == 4:
          poly_degree_9_vec.append(error)
 
+xvals_graph = np.log10(xvals_graph)
 
-plt.scatter(xvals_graph, poly_degree_3_vec, color = 'pink', label = 'Poly Degree 3', s = 12) # Data Points
-plt.scatter(xvals_graph, poly_degree_5_vec, color = 'purple', label = 'Poly Degree 5', s = 12) # Data Points
-plt.scatter(xvals_graph, poly_degree_7_vec, color = 'green', label = 'Poly Degree 7', s = 12) # Data Points
-plt.scatter(xvals_graph, poly_degree_9_vec, color = 'orange', label = 'Poly Degree 9', s = 12) # Data Points
-plt.xlabel('n')
+plt.scatter(xvals_graph, poly_degree_3_vec, color = 'red', label = 'Poly Degree 3', s = 12, marker = 'o') # Data Points
+plt.scatter(xvals_graph, poly_degree_5_vec, color = 'purple', label = 'Poly Degree 5', s = 12, marker = 'D') # Data Points
+plt.scatter(xvals_graph, poly_degree_7_vec, color = 'green', label = 'Poly Degree 7', s = 12, marker = '+') # Data Points
+#plt.scatter(xvals_graph, poly_degree_9_vec, color = 'orange', label = 'Poly Degree 9', s = 12) # Data Points
+plt.xlabel('Base 10 Log of n')
 plt.ylabel('Base 10 Log of Max Error')
-plt.title('Base 10 Log of Max Error vs. n')
+plt.title('Base 10 Log of Max Error vs. Base 10 Log of n')
 plt.grid(True)
 plt.legend()
+plt.savefig(r"c:\Users\lucas\RBF_Research\RBF_Research\Test_Cases\deriv_error_vs_n.png", dpi=300, bbox_inches="tight")
 plt.show()
 
 
+# Do another example with the D2 directly calculated and D1*D1
 
 
 

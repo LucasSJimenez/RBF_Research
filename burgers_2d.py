@@ -1,5 +1,7 @@
 import numpy as np
 import time
+import matplotlib.pyplot as plt
+import matplotlib.axes as ax
 
 ### Parameters
 
@@ -42,38 +44,17 @@ def knn_matrix_creator(xvals,n_knn):
   return matrix, indices
 
 ### Burgers Equation Exact Solution
-def burgers_exact_solution(x, t, v = 0.004375):
-
-    aa = 0.05 * (x + 0.5 + 4.95 * t) / (2*v)
+def burgers_exact_solution(x, t, nu = 0.004375):
+    x2 = x + 1.0
+    aa = 0.05 * (x2 - 0.5 + 4.95*t) / nu
+    bb = 0.25 * (x2 - 0.5 + 0.75*t) / nu
+    cc = 0.5 * (x2 - 0.375) / nu
     
-    bb = 0.25 * (x + 0.5 + 0.75 * t) / (4*v)
+    ex = (0.1*np.exp(-aa) + 0.5*np.exp(-bb) + np.exp(-cc)) / \
+         (np.exp(-aa) + np.exp(-bb) + np.exp(-cc))
     
-    cc = 0.5 * (x + 0.625) / (2*v)
+    return ex
 
-    # Store the NEGATIVE exponents
-    neg_aa = -aa
-    neg_bb = -bb
-    neg_cc = -cc
-
-    # Find the maximum value among the exponents
-    # We need to do this for each x value, so we stack them
-    stacked_exponents = np.stack([neg_aa, neg_bb, neg_cc], axis=0)
-    M = np.max(stacked_exponents, axis=0)
-
-    # Rescale the exponents by subtracting the max value
-    # This makes the largest exponent 0 (e.g., exp(0) = 1)
-    # and all others negative, preventing underflow.
-    exp_aa = np.exp(neg_aa - M)
-    exp_bb = np.exp(neg_bb - M)
-    exp_cc = np.exp(neg_cc - M)
-
-
-    numerator = 0.1 * exp_aa + 0.5 * exp_bb + exp_cc
-    denominator = exp_aa + exp_bb + exp_cc
-
-
-    
-    return numerator / denominator
 
 ### Base Functions
 
@@ -101,7 +82,7 @@ def poly_terms_and_dt(var1, t, poly_degree):
 
 # Example usage:
 t, v = 0.0, 0.004375
-dt = 0.001
+dt = 0.01
 final_time = 1.2
 poly_degree = 3
 
@@ -277,7 +258,7 @@ def Function(u, t):
    new_u[0] = burgers_exact_solution(-1, t)
    new_u[-1] = burgers_exact_solution(1, t)
    
-   convection = -0.5 * (d1_matrix @ (new_u ** 2))
+   convection = -0.5 * (d1_matrix @ np.square(new_u))
 
    diffusion = v * (d2_matrix @ new_u)
 
@@ -294,6 +275,7 @@ while t < final_time:
     u[0] = burgers_exact_solution(-1, t)
     u[-1] = burgers_exact_solution(1, t)
     U = u
+    #print("Time: " + str(t) + ", Approximation: " + str(U))
     
 
 print("Final time: " + str(t))
