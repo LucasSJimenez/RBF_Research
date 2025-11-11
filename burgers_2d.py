@@ -5,12 +5,12 @@ import matplotlib.axes as ax
 
 ### Parameters
 
-degree = 5
+degree = 3
 poly_degree = 5
-start = 0
+start = -1
 stop = 1
-num_pts = 140
-num_knn = (2*poly_degree) + 1
+num_pts = 280 # Changed from 140 to 280 for better accuracy (unlike the journal)
+num_knn = (2*(poly_degree+1))
 xvals = np.linspace(start, stop, num=num_pts)  # creates x values into a np.array
 end_time = 1.2
 
@@ -20,7 +20,7 @@ def phs(r):
     return (abs(r) ** (degree))
 
 def deriv_phs(r):
-    return degree * r * (np.abs(r) ** (degree - 2))
+    return degree * r *(np.abs(r) ** (degree - 2)) #degree * (np.abs(r) ** (degree - 1))  degree * r * (np.abs(r) ** (degree - 2))
 
 def deriv2_phs(r):
     return degree * (degree - 1) * (np.abs(r) ** (degree - 2))
@@ -87,7 +87,6 @@ final_time = 1.2
 poly_degree = 3
 
 def local_rbf_fd():
-    num_pts = 140
     num_knn = (2*poly_degree) + 1
     xvals = np.linspace(start, stop, num=num_pts)  # creates x values into a np.array
    
@@ -160,7 +159,6 @@ def local_rbf_fd_d2():
     Written in the same style as the original local_rbf_fd.
     """
 
-    num_pts = 140
     num_knn = (2*poly_degree) + 1
     xvals = np.linspace(start, stop, num=num_pts)  # creates x values into a np.array
     
@@ -250,7 +248,7 @@ U = burgers_starting_condition(xvals)
 
 def Function(u, t):
    new_u = np.copy(u)
-   new_u[0] = burgers_exact_solution(0, t)
+   new_u[0] = burgers_exact_solution(-1, t)
    new_u[-1] = burgers_exact_solution(1, t)
    
    convection = -0.5 * (d1_matrix @ np.square(new_u))
@@ -267,7 +265,7 @@ def Function(u, t):
 while round(t, ndigits = 4) < final_time:
     u = rk4(U, t, dt, Function)
     t += dt
-    u[0] = burgers_exact_solution(0, t)
+    u[0] = burgers_exact_solution(-1, t)
     u[-1] = burgers_exact_solution(1, t)
     U = u
     #print("Time: " + str(t) + ", Approximation: " + str(U))
