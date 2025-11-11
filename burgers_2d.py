@@ -6,12 +6,13 @@ import matplotlib.axes as ax
 ### Parameters
 
 degree = 5
-poly_degree = 3
-start = -1
+poly_degree = 5
+start = 0
 stop = 1
 num_pts = 140
 num_knn = (2*poly_degree) + 1
 xvals = np.linspace(start, stop, num=num_pts)  # creates x values into a np.array
+end_time = 1.2
 
 start_time = time.time()
 
@@ -19,7 +20,7 @@ def phs(r):
     return (abs(r) ** (degree))
 
 def deriv_phs(r):
-    return degree * (np.abs(r) ** (degree - 1))
+    return degree * r * (np.abs(r) ** (degree - 2))
 
 def deriv2_phs(r):
     return degree * (degree - 1) * (np.abs(r) ** (degree - 2))
@@ -55,7 +56,6 @@ def burgers_exact_solution(x, t, nu = 0.004375):
     
     return ex
 
-
 ### Base Functions
 
 def poly_terms_and_dt(var1, t, poly_degree):
@@ -82,14 +82,11 @@ def poly_terms_and_dt(var1, t, poly_degree):
 
 # Example usage:
 t, v = 0.0, 0.004375
-dt = 0.01
+dt = 0.001
 final_time = 1.2
 poly_degree = 3
 
 def local_rbf_fd():
-    poly_degree = 3
-    start = -1
-    stop = 1
     num_pts = 140
     num_knn = (2*poly_degree) + 1
     xvals = np.linspace(start, stop, num=num_pts)  # creates x values into a np.array
@@ -162,9 +159,7 @@ def local_rbf_fd_d2():
     Calculates the SECOND derivative (D2) matrix.
     Written in the same style as the original local_rbf_fd.
     """
-    poly_degree = 3
-    start = -1
-    stop = 1
+
     num_pts = 140
     num_knn = (2*poly_degree) + 1
     xvals = np.linspace(start, stop, num=num_pts)  # creates x values into a np.array
@@ -255,7 +250,7 @@ U = burgers_starting_condition(xvals)
 
 def Function(u, t):
    new_u = np.copy(u)
-   new_u[0] = burgers_exact_solution(-1, t)
+   new_u[0] = burgers_exact_solution(0, t)
    new_u[-1] = burgers_exact_solution(1, t)
    
    convection = -0.5 * (d1_matrix @ np.square(new_u))
@@ -269,10 +264,10 @@ def Function(u, t):
    return fp
 
 
-while t < final_time:
+while round(t, ndigits = 4) < final_time:
     u = rk4(U, t, dt, Function)
     t += dt
-    u[0] = burgers_exact_solution(-1, t)
+    u[0] = burgers_exact_solution(0, t)
     u[-1] = burgers_exact_solution(1, t)
     U = u
     #print("Time: " + str(t) + ", Approximation: " + str(U))
@@ -280,11 +275,25 @@ while t < final_time:
 
 print("Final time: " + str(t))
 print("Final Runtime: " +str(time.time() - start_time))
+
+      
+xvals_graph_exact = np.linspace(start, stop, num = 51)
+burgers_exact_graph = burgers_exact_solution(xvals_graph_exact, 1.2)
+
+plt.scatter(xvals, U, color = 'red', label = 'RBF-FD Approximation', s = 12) # Data Points
+plt.scatter(xvals_graph_exact, burgers_exact_graph, color = 'blue', label = 'Exact Solution', s = 12) # Data Points
+plt.xlabel('x')
+plt.ylabel('u(x,t)')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+error_vec = abs(burgers_exact_solution(xvals, 1.2) - U)
+plt.scatter(xvals, error_vec, color = 'green', label = 'Error', s = 12) # Data Points
+plt.xlabel('x')
+plt.ylabel('|error|')
+plt.grid(True)
+plt.show()
+
 print(U)
-         
-
-## Numpy Functions
-
-# Euclidean Distance: np.linalg.norm(a-b)
-
 
