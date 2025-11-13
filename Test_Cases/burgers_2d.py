@@ -284,14 +284,14 @@ plt.xlabel('x')
 plt.ylabel('u(x,t)')
 plt.grid(True)
 plt.legend()
-plt.show()
+plt.savefig(r"c:\Users\lucas\RBF_Research\RBF_Research\Test_Cases\burgers_approx.png", dpi=300, bbox_inches="tight")
 
 error_vec = abs(burgers_exact_solution(xvals, 1.2) - U)
 plt.scatter(xvals, error_vec, color = 'green', label = 'Error', s = 12) # Data Points
 plt.xlabel('x')
 plt.ylabel('|error|')
 plt.grid(True)
-plt.show()
+plt.savefig(r"c:\Users\lucas\RBF_Research\RBF_Research\Test_Cases\burgers_error.png", dpi=300, bbox_inches="tight")
 
 print(U)
 
