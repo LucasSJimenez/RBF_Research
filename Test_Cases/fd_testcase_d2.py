@@ -179,8 +179,8 @@ plt.scatter(xvals_graph, poly_degree_3_vec, color = 'red', label = 'Poly Degree 
 plt.scatter(xvals_graph, poly_degree_5_vec, color = 'purple', label = 'Poly Degree 5', s = 25, marker = 'D') # Data Points
 plt.scatter(xvals_graph, poly_degree_7_vec, color = 'green', label = 'Poly Degree 7', s = 25, marker = '^') # Data Points
 #plt.scatter(xvals_graph, poly_degree_9_vec, color = 'orange', label = 'Poly Degree 9', s = 12) # Data Points
-plt.xlabel('Base 10 Log of n')
-plt.ylabel('Base 10 Log of Max Error')
+plt.xlabel(r'$\log_{10}(n)$')
+plt.ylabel(r'$\log_{10} ||\vec{\Gamma}||_{\infty}$')
 plt.title('Base 10 Log of Max Error vs. Base 10 Log of n')
 plt.grid(False)
 plt.legend()

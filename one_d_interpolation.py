@@ -219,7 +219,7 @@ for i in range(1,7): # Iterates over number of sample points
   num_pts = int((((stop-start)/step)+1))
   xvals_ = np.linspace(start,stop, num = num_pts) #creates x values into a np.array
   true_y = y_func(xvals_)
-  xvals_graph.append(u)
+  xvals_graph.append(np.log10(u))
   for k in range(1,5): # Iterates over polynomial degrees
 
     p_degree = 2*k + 1
@@ -246,16 +246,16 @@ for i in range(1,7): # Iterates over number of sample points
 
 
 
-plt.scatter(xvals_graph, poly_degree_3_vec, color = 'red', label = '3') # Data Points
-plt.scatter(xvals_graph, poly_degree_5_vec, color = 'blue', label = '5') # Data Points
-plt.scatter(xvals_graph, poly_degree_7_vec, color = 'green', label = '7') # Data Points
-plt.scatter(xvals_graph, poly_degree_9_vec, color = 'orange', label = '9') # Data Points
-plt.xlabel('n')
-plt.ylabel('infinity norm')
+plt.scatter(xvals_graph, poly_degree_3_vec, color = 'red', label = 'Polynomial Degree 3') # Data Points
+plt.scatter(xvals_graph, poly_degree_5_vec, color = 'blue', label = 'Polynomial Degree 5') # Data Points
+plt.scatter(xvals_graph, poly_degree_7_vec, color = 'green', label = 'Polynomial Degree 7') # Data Points
+plt.scatter(xvals_graph, poly_degree_9_vec, color = 'orange', label = 'Polynomial Degree 9') # Data Points
+plt.xlabel(r'$\log_{10}(n)$')
+plt.ylabel(r'$\log_{10} ||\vec{\Gamma}||_{\infty}$')
 plt.title('Infinity norm vs. n')
 plt.grid(True)
 plt.legend()
-plt.show()
+plt.savefig(r"c:\Users\lucas\RBF_Research\RBF_Research\Test_Cases\one_d_interpolation_phs.png", dpi=300, bbox_inches="tight")
 ## Basic Plot
 #plt.plot(xvals, true_y, 'bo', label="Original Points")  # Blue dots for original points
 #plt.plot(extended_xvals, interpolation_pts, 'ro', label="Interpolation Curve")

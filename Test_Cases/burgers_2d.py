@@ -280,16 +280,16 @@ burgers_exact_graph = burgers_exact_solution(xvals_graph_exact, 1.2)
 
 plt.scatter(xvals, U, color = 'red', label = 'RBF-FD Approximation', s = 12) # Data Points
 plt.scatter(xvals_graph_exact, burgers_exact_graph, color = 'blue', label = 'Exact Solution', s = 12) # Data Points
-plt.xlabel('x')
-plt.ylabel('u(x,t)')
+plt.xlabel(r'$x$')
+plt.ylabel(r'$u(x,t)$')
 plt.grid(True)
 plt.legend()
 plt.savefig(r"c:\Users\lucas\RBF_Research\RBF_Research\Test_Cases\burgers_approx.png", dpi=300, bbox_inches="tight")
 
 error_vec = abs(burgers_exact_solution(xvals, 1.2) - U)
 plt.scatter(xvals, error_vec, color = 'green', label = 'Error', s = 12) # Data Points
-plt.xlabel('x')
-plt.ylabel('|error|')
+plt.xlabel(r'$x$')
+plt.ylabel(r'$\log_{10} ||\vec{\Gamma}||_{\infty}$')
 plt.grid(True)
 plt.savefig(r"c:\Users\lucas\RBF_Research\RBF_Research\Test_Cases\burgers_error.png", dpi=300, bbox_inches="tight")
 
